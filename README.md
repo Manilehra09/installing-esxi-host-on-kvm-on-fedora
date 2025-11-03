@@ -68,7 +68,7 @@ sudo cp /usr/share/OVMF/OVMF_VARS.fd /var/lib/libvirt/qemu/nvram/esxi-host_VARS.
 Run this **virt-install** command:
 
 ```bash
-sudo virt-install --name esxi-host --memory 81920 --vcpus 20 --cpu host-passthrough --machine pc-i440fx-8.2 --os-variant generic --disk path=/var/lib/libvirt/images/esxi-host.qcow2,format=qcow2,bus=sata,size=1700 --cdrom /home/mani/Downloads/esxi-20251101T160459Z-1-002/esxi/VMware-VMvisor-Installer-7.0U3g-20328353.x86_64.iso --network bridge=br0,model=e1000e --boot loader=/usr/share/OVMF/OVMF_CODE.fd,nvram=/var/lib/libvirt/qemu/nvram/esxi-host_VARS.fd --graphics vnc,listen=0.0.0.0,port=5901 --video vmvga
+sudo virt-install --name esxi-host --memory 81920 --vcpus 20 --cpu host-passthrough --machine pc-i440fx-8.2 --os-variant generic --disk path=/var/lib/libvirt/images/esxi-host.qcow2,format=qcow2,bus=sata,size=1700 --cdrom <path of iso>/VMware-VMvisor-Installer-7.0U3g-20328353.x86_64.iso --network bridge=br0,model=e1000e --boot loader=/usr/share/OVMF/OVMF_CODE.fd,nvram=/var/lib/libvirt/qemu/nvram/esxi-host_VARS.fd --graphics vnc,listen=0.0.0.0,port=5901 --video vmvga
 ```
 
 ---
