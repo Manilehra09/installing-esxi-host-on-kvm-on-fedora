@@ -29,10 +29,24 @@ sudo systemctl enable --now libvirtd
 Ensure your **Ethernet** interface is bridged to `br0` (for real LAN access):
 
 ```bash
-sudo nmcli connection add type bridge ifname br0 con-name br0 ipv4.method auto
-sudo nmcli connection add type ethernet ifname enp130s0 master br0
-sudo nmcli connection up bridge-slave-enp130s0
+#!/bin/bash
+# --- Reset old configs ---
+sudo nmcli connection delete br0 || true
+sudo nmcli connection delete br0-port1 || true
+
+# --- Create bridge and add physical port ---
+sudo nmcli connection add type bridge ifname br0 con-name br0 ipv4.method manual \
+  ipv4.addresses 192.168.1.10/24 ipv4.gateway 192.168.1.1 ipv4.dns "8.8.8.8"
+
+sudo nmcli connection add type ethernet ifname enp130s0 master br0 con-name br0-port1
+
+# --- Make it persistent and clean ---
+sudo nmcli connection modify br0 connection.autoconnect yes ipv6.method ignore
+sudo nmcli connection modify br0 802-3-ethernet.cloned-mac-address 34:5a:60:04:6b:65
+
+# --- Bring bridge up ---
 sudo nmcli connection up br0
+
 ```
 
 Confirm with:
