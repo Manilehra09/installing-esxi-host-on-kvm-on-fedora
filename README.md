@@ -60,7 +60,7 @@ ip addr show br0
 ### 4. Prepare ISO and Storage
 Download or locate your ESXi ISO:
 ```
-<path of your iso file>/VMware-VMvisor-Installer-7.0U3g-20328353.x86_64.iso
+/var/lib/libvirt/images/VMware-VMvisor-Installer-7.0U3g-20328353.x86_64.iso
 ```
 
 Create a QCOW2 disk for ESXi:
@@ -83,17 +83,21 @@ Run this **virt-install** command:
 
 ```bash
 sudo virt-install \
- --name esxi-host \
- --memory 81920 \
---vcpus 20 --cpu host-passthrough \
---machine pc-i440fx-8.2 \
- --os-variant generic  \
---disk path=/var/lib/libvirt/images/esxi-host.qcow2,format=qcow2,bus=sata,size=1700 \
---cdrom <path of iso>/VMware-VMvisor-Installer-7.0U3g-20328353.x86_64.iso \
---network bridge=br0,model=e1000e \
---boot loader=/usr/share/OVMF/OVMF_CODE.fd,nvram=/var/lib/libvirt/qemu/nvram/esxi-host_VARS.fd \
---graphics vnc,listen=0.0.0.0,port=5901 \
---video vmvga
+  --name esxi-host \
+  --memory 81920 \
+  --vcpus 20 \
+  --cpu host-passthrough \
+  --machine pc-i440fx-8.2 \
+  --os-variant generic \
+  --disk path=/var/lib/libvirt/images/esxi-host.qcow2,format=qcow2,bus=sata,size=1700 \
+  --cdrom /var/lib/libvirt/images/VMware-VMvisor-Installer-7.0U3g-20328353.x86_64.iso \
+  --network bridge=br0,model=e1000e \
+  --boot loader=/usr/share/OVMF/OVMF_CODE.fd,nvram=/var/lib/libvirt/qemu/nvram/esxi-host_VARS.fd \
+  --graphics vnc,listen=0.0.0.0,port=5901 \
+  --video vmvga \
+  --noautoconsole
+
+
 ```
 
 ---
